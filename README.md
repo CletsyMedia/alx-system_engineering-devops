@@ -1,3 +1,4 @@
+<img src="https://www.pagerduty.com/wp-content/uploads/2020/11/6-essential-DevOps-roles_DevOps.png">
 ## What is DevOps?
 
 DevOps is a set of practices, tools, and a cultural philosophy that automate and integrate the processes between software development and IT teams. It emphasizes team empowerment, cross-team communication and collaboration, and technology automation.
