@@ -1,13 +1,31 @@
-<img src="https://www.pagerduty.com/wp-content/uploads/2020/11/6-essential-DevOps-roles_DevOps.png">
-<h1>What is DevOps?</h1>
+# Bash Scripting Odyssey: Navigating Linux
 
-DevOps is a set of practices, tools, and a cultural philosophy that automate and integrate the processes between software development and IT teams. It emphasizes team empowerment, cross-team communication and collaboration, and technology automation.
+![DevOps](https://vegastack.com/tutorials/content/images/2022/02/Bash-Shebang.png)
 
-## How does DevOps work?
+This repository serves as a sacred vault,
+for the first sprint in ALX, where ALX-SE's journey's taught.
+In scripts and commands, our knowledge takes flight,
+within these lines, the script's guiding light shines bright.
+Shebang and Bash, in this coding realm we explore,
+Unlocking the secrets, on Bash's poetic shore
 
-A DevOps team includes developers and IT operations working collaboratively throughout the product lifecycle, in order to increase the speed and quality of software deployment. It’s a new way of working, a cultural shift, that has significant implications for teams and the organizations they work for.
+| #  | Topic                                      | Description                                            |
+| -- | ------------------------------------------ | ------------------------------------------------------ |
+| 1  | [Shell_basics](./0x00-shell_basics)        | Exploring the world of Bash commands in a symphony.   |
+| 2  | [Shell_permission](./0x01-shell_permissions)        | Mastering Bash permissions for code control.        |
+| 3  | [Shell_redirections](./0x02-shell_redirections)        | Bash's poetic mastery of data redirections.        |
+| 4  | [Shell_variables](./0x03-shell_variables_expansions)        | Unveiling the magic of Bash variables and expansions.|
 
-Under a DevOps model, development and operations teams are no longer “siloed.” Sometimes, these two teams merge into a single team where the engineers work across the entire application lifecycle — from development and test to deployment and operations — and have a range of multidisciplinary skills.
-At its heart, this is a combination of tools, practices, and cultural philosophies. It focuses on the ability of a business to deliver software and services at speed and also scale. Furthermore, the model concentrates on the evolution of both new and existing products, thus enabling constant movement within the market.
-Successful organizations using the model will be able to outpace their competitors and better serve the needs of the market.
-It’s a fair assessment to say dev ops revolutionized the traditional software development model.
+## Prerequisites
+
+- [Shell Programming in 24 Hours](https://www.pdfdrive.com/shell-programming-in-24-hourspdf-e26943388.html)
+- Allowed editors: vi, vim, emacs.
+- All your scripts will be tested on Ubuntu 20.04 LTS
+- All your scripts should be exactly two lines long ($ wc -l file should print 2)
+- All your files should end with a new line (why?)
+- The first line of all your files should be exactly #!/bin/bash
+- All your scripts must be executable. To make your file executable, use the chmod command: chmod u+x file.
+
+## Author
+
+&copy; All Rights Reserved [Cletus Samuel](https://cletsymedia.github.io/Prof-Portfolio/)
