@@ -7,7 +7,7 @@ for the first sprint in ALX, where ALX-SE's journey's taught.
 In scripts and commands, our knowledge takes flight,
 within these lines, the script's guiding light shines bright.
 Shebang and Bash, in this coding realm we explore,
-Unlocking the secrets, on Bash's poetic shore
+Unlocking the secrets, on Bash's poetic shore.
 
 | #  | Topic                                      | Description                                            |
 | -- | ------------------------------------------ | ------------------------------------------------------ |
