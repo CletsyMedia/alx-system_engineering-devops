@@ -1,6 +1,6 @@
 # Bash Scripting Odyssey: Navigating Linux
 
-![DevOps](https://vegastack.com/tutorials/content/images/2022/02/Bash-Shebang.png)
+![Bash_logo](https://vegastack.com/tutorials/content/images/2022/02/Bash-Shebang.png)
 
 This repository serves as a sacred vault,
 for the first sprint in ALX, where ALX-SE's journey's taught.
