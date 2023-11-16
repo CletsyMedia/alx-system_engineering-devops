@@ -59,7 +59,7 @@ Embark on a thrilling journey through the [CMD CHALLENGE](https://cmdchallenge.c
 7. **Push to GitHub:**
    - Push the transferred screenshots to GitHub as per the initial requirements.
 
-With these steps above, you have successfully completed the **Command Line For Win Challenge**👌.
+With these steps above, you have successfully completed the **Command Line For Win Challenge**👌👌👌.
 
 ## Feedback 📢🚀
 
