@@ -15,7 +15,7 @@ Unlocking the secrets, on Bash's poetic shore.
 | 2  | [Shell_permission](./0x01-shell_permissions)        | Mastering Bash permissions for code control.        |
 | 3  | [Shell_redirections](./0x02-shell_redirections)        | Bash's poetic mastery of data redirections.        |
 | 4  | [Shell_variables](./0x03-shell_variables_expansions)        | Unveiling the magic of Bash variables and expansions.|
-| 5  | [CMD_Challenge](./command_line_for_the_win/)        | Unraveling the spell that test you Bash command skills beyond its limits.|
+| 5  | [CMD_Challenge](./command_line_for_the_win/)        | Unraveling the spell that test your Bash command skills beyond its limits.|
 
 ## Prerequisites
 
