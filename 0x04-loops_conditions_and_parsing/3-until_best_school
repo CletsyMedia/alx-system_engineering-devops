@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Using a while loop to display "Best School" 10x
+# Using a until alt to while loop to display "Best School" 10x
 
 i=0;
 
 # Define the loop
-while [ $i -lt 10 ]
+until [ $i -lt 10 ]
 
 do
   echo "Best School"
