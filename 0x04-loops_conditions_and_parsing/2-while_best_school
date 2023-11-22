@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Using a while loop to display "Best School 10X"
+
+i=0;
+
+# Define the loop
+while [ $i -lt 10 ]
+
+do
+  echo "Best School"
+
+#increment
+((i++))
+done
