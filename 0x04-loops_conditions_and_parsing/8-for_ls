@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Script that displays the content of the curr directory
+# in a list format
+# Where only the part of the name after the 
+# first dash is displayed 
+# do not use while and until loop use only for loop
+# Do not display hidden files
+# Loop through each file in the current directory
+for file in *; do
+    # Check if the file is a reg file (not a dir) and not hidden
+    if [ -f "$file" ] && [[ "$file" != .* ]]; then
+        # Extract the part of the name after the first dash
+        name_part=$(echo "$file" | cut -d'-' -f2-)
+        # Display the formatted output
+        echo "$name_part"
+    fi
+done
