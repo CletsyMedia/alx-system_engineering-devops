@@ -13,9 +13,6 @@ if [ -e 'school' ]; then
 
     if [ -f 'school' ]; then
         echo 'school is a regular file'
-    else
-        # This condition is not explicitly needed as it's covered by the previous check
-        echo '(nothing)'
     fi
 else
     echo 'school file does not exist'
