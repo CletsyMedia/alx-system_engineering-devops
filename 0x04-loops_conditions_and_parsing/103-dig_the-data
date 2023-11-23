@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Use awk to extract and format IP and HTTP status code
+awk '{print $1, $9}' apache-access.log |
+# Sort the data, count occurrences, and format the output
+sort | uniq -c | sort -nr | awk '{print $1, $2, $3}'
+ 
