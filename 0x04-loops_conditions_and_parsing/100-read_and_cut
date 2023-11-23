@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Read and cut the content of /etc/passwd file
-while IFS=':' read -r username x uid gid info home shell; do
+while IFS=':' read -r username _ uid _ _ home _; do
+
     echo "$username:$uid:$home"
-done < /etc/passwd >
+done < /etc/passwd
