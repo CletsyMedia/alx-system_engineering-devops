@@ -2,4 +2,4 @@
 # Read and cut the content of /etc/passwd file
 while IFS=':' read -r username x uid gid info home shell; do
     echo "$username:$uid:$home"
-done < /etc/passwd
+done < /etc/passwd >
