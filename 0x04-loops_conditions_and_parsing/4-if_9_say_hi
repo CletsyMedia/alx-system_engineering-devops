@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 # Using a while loop to display "Best School" 10x
-# and then if condition at the 9th iteration to be wriiten "Hi"
+# and then if condition at the 9th iteration to be written "Hi"
 i=1
-while [ $i -lt 10 ]
+while [ $i -le 10 ]
 do
   echo "Best School"
-# Check if it's the 9th iteration
-if [ $i -eq 8 ]
-then echo "Hi"
-fi
-i=$((i+1))
+  # Check if it's the 9th iteration
+  if [ $i -eq 9 ]
+  then
+    echo "Hi"
+  fi
+  i=$((i+1))
 done
