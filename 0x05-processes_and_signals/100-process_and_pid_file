@@ -1,19 +1,22 @@
 #!/usr/bin/env bash
 # Function to handle cleanup and termination
 
+# Save PID to the file
 echo "$$" > /var/run/myscript.pid
 
+# Function to handle cleanup and termination
 termfunc() {
-	rm /var/run/myscript.pid
-	exit
+    rm /var/run/myscript.pid
+    exit
 }
 
+# Trap signals
+trap 'echo "Y U no love me?!"' SIGINT
+trap 'echo "I hate the kill command" && termfunc' SIGTERM
+trap 'termfunc' SIGQUIT
 
-while true
-do
-	echo "To infinity and beyond"
-	sleep 2
-	trap 'echo "Y U no love me?!"' SIGINT
-	trap 'echo "I hate the kill command" && termfunc' SIGTERM
-	trap 'termfunc' SIGQUIT
+# Display message indefinitely
+while true; do
+    echo "To infinity and beyond"
+    sleep 2
 done
