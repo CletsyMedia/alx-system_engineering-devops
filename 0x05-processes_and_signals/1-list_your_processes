@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
 #Script that displays a list of currently running processes
-echo "USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND"
-
 # Use ps command to display process information in a user-oriented format
 ps axjf
