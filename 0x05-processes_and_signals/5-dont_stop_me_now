@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Find and kill the 4-to_infinity_and_beyond process
+process_name="4-to_infinity_and_beyond.sh"
+
+# Use pgrep to find the process ID and kill it
+pid=$(pgrep -f "$process_name")
+
+if [ -n "$pid" ]; then
+    echo "Stopping $process_name (PID: $pid)"
+    kill "$pid"
+else
+    echo "$process_name is not running"
+fi
