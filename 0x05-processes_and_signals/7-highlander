@@ -1,3 +1,11 @@
 #!/usr/bin/env bash
-# Use pkill to stop the 7-highlander process
-pkill -f "bash ./7-highlander"
+# Prints the message "To infinity and beyond" for eternity unless it is killed, not so eternal after all :)
+
+# Handle SIGTERM
+trap "echo 'I am invincible!!!'" SIGTERM
+
+# Print the message forever
+while true; do
+    echo "To infinity and beyond"
+    sleep 2
+done
