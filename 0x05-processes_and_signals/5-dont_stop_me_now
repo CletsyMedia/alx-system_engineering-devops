@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Find and kill the 4-to_infinity_and_beyond process
-process_name="4-to_infinity_and_beyond.sh"
+# kills the infinity and beyond program using SIGTERM signal
 
-# Use pgrep to find the process ID and kill it
-pid=$(pgrep -f "$process_name")
+# Get the pid of the program
+id=$(pgrep "bash ./4-to_infinity_and_beyond" -f)
 
-if [ -n "$pid" ]; then
-    echo "Stopping $process_name (PID: $pid)"
-    kill "$pid"
+# Terminate the infinite process
+if [ -n "$id" ]; then
+  echo "Terminating the infinite process (PID: $id)"
+  kill -15 "$id"
 else
-    echo "$process_name is not running"
+  echo "The infinite process is not running"
 fi
