@@ -1,25 +1,19 @@
 #!/usr/bin/env bash
 # Function to handle cleanup and termination
-cleanup() {
-    echo "I hate the kill command"
-    rm "$pid_file"
-    exit 0
+
+echo "$$" > /var/run/myscript.pid
+
+termfunc() {
+	rm /var/run/myscript.pid
+	exit
 }
 
-# Function to handle SIGINT signal
-sigint_handler() {
-    echo "Y U no love me?!"
-}
 
-# Trap signals
-trap 'cleanup' SIGQUIT SIGTERM
-trap 'sigint_handler' SIGINT
-
-# Display PID and save it to the file
-echo "$$" > "$pid_file"
-
-# Display message indefinitely
-while true; do
-    echo "To infinity and beyond"
-    sleep 2
+while true
+do
+	echo "To infinity and beyond"
+	sleep 2
+	trap 'echo "Y U no love me?!"' SIGINT
+	trap 'echo "I hate the kill command" && termfunc' SIGTERM
+	trap 'termfunc' SIGQUIT
 done
