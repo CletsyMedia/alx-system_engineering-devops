@@ -6,8 +6,6 @@ id=$(pgrep "bash ./4-to_infinity_and_beyond" -f)
 
 # Terminate the infinite process
 if [ -n "$id" ]; then
-  echo "Terminating the infinite process (PID: $id)"
   kill -15 "$id"
-else
-  echo "The infinite process is not running"
+
 fi
