@@ -11,3 +11,4 @@ matches = input_string.scan(regex_pattern)
 
 # Print the matches joined by a newline
 puts matches.join
+
