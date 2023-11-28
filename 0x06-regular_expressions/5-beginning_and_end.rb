@@ -10,5 +10,5 @@ regex_pattern = /^h.n$/
 # Use match method to find matches in the input string
 match_result = input_string.match(regex_pattern)
 
-# Print the matched portion
-putsputs match_result.join
+# Print the matched portion if there is a match
+puts match_result[0] if match_result
