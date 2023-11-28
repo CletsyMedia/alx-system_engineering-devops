@@ -3,11 +3,11 @@
 # Extract the first command line argument
 input_string = ARGV[0]
 
-# Define the regular expression to match "hbt" with an optional 't'
+# Define the regular expression with a repetition token to match "hbt" with an optional 't'
 regex_pattern = /hbt?n/
 
-# Use scan method to find matches in the input string
-matches = input_string.scan(regex_pattern)
+# Use the match method to find matches in the input string
+match_result = input_string.match(regex_pattern)
 
-# Print the matches joined by a newline
-puts matches.join
+# Print the matched portion
+puts match_result ? match_result[0] : "No match"
