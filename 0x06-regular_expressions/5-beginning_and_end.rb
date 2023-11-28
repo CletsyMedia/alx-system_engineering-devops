@@ -11,4 +11,4 @@ regex_pattern = /^h.n$/
 match_result = input_string.match(regex_pattern)
 
 # Print the matched portion
-puts match_result ? match_result[0]
+putsputs match_result.join
