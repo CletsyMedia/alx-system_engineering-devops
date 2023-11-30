@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Show attached IPv4 IPs
+ip -4 addr show | grep inet | awk '{print $2}' | cut -d'/' -f1
