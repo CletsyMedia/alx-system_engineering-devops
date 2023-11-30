@@ -77,12 +77,12 @@ Let's explore UDP and TCP, the dynamic duo of network protocols! 🚀
 ## 4. TCP and UDP Ports
 
 Ports are like windows and doors for network devices! 🚪🔒 This script helps you peek at open ports.
-[4-TCP_and_UDP_ports](https://github.com/CletsyMedia/alx-system_engineering-devops/0x07-networking_basics/4-TCP_and_UDP_ports)
+[4-TCP_and_UDP_ports](https://github.com/CletsyMedia/alx-system_engineering-devops/blob/master/0x07-networking_basics/4-TCP_and_UDP_ports)
 
 ## 5. Is the Host on the Network
 
 Use ICMP to check if a network device is online. Ping it 5 times!
 Ping an IP address like a pro! 🚀✨
-[5-is_the_host_on_the_network](https://github.com/CletsyMediaalx-system_engineering-devops/0x07-networking_basics/5-is_the_host_on_the_network)
+[5-is_the_host_on_the_network](https://github.com/CletsyMedia/alx-system_engineering-devops/0x07-networking_basics/5-is_the_host_on_the_network)
 
 Learning the Networking Basics `#0` project! 🎉 You've explored key networking concepts and even written scripts to interact with networks. Keep diving deeper into the world of networking, and remember, the network is your playground! Happy coding! 🖥️🌐
