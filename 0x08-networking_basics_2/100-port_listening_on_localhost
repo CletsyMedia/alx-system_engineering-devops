@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
-# Porting the number 98 to listen to
-port=98
-# Start listening to port 98
-nc -lk "${port}"
+# Listens to the port 98 on localhost
+nc -l 98
