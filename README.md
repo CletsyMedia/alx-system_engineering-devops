@@ -17,8 +17,9 @@ Unlocking the secrets, on Bash's poetic shore.
 | 3  | [Shell_variables](./0x03-shell_variables_expansions)        | Unveiling the magic of Bash variables and expansions.|
 | 4  | [Loops & Conditions](./0x04-loops_conditions_and_parsing/) | Mastering Bash iteration, conditionals and parsing.|
 | 5  | [Processes & Signals](./0x05-processes_and_signals/) | Mastering Bash processes and Signals.|
-| 6  | [Networking basis 1-2](./0x06-regular_expressions/) | Finding needle in haystack using `regex`.|
-| 7  | [Power of regex](./0x07-networking_basics/) | The artistry in bash networking `basis`.|
+| 6  | [Power of regex](./0x06-regular_expressions/) | Finding needle in haystack using `regex`.|
+| 7  | [Networking basis 1-2](./0x07-networking_basics/) | The artistry in bash networking `basis`.|
+| 7  | [Web Infrastructure](./0x09-web_infrastructure_design/) | Web static infrastructure and its rudiments.|
 | 8  | [CMD_Challenge](./command_line_for_the_win/)        | Unraveling the spell that test your Bash command skills beyond its limits.|
 
 ## Prerequisites
