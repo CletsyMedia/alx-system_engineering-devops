@@ -19,8 +19,8 @@ Unlocking the secrets, on Bash's poetic shore.
 | 5  | [Processes & Signals](./0x05-processes_and_signals/) | Mastering Bash processes and Signals.|
 | 6  | [Power of regex](./0x06-regular_expressions/) | Finding needle in haystack using `regex`.|
 | 7  | [Networking basis 1-2](./0x07-networking_basics/) | The artistry in bash networking `basis`.|
-| 7  | [Web Infrastructure](./0x09-web_infrastructure_design/) | Web static infrastructure and its rudiments.|
-| 8  | [CMD_Challenge](./command_line_for_the_win/)        | Unraveling the spell that test your Bash command skills beyond its limits.|
+| 8  | [Web Infrastructure](./0x09-web_infrastructure_design/) | Web static infrastructure and its rudiments.|
+| 9  | [CMD_Challenge](./command_line_for_the_win/)        | Unraveling the spell that test your Bash command skills beyond its limits.|
 
 ## Prerequisites
 
