@@ -15,10 +15,10 @@ Unlocking the secrets, on Bash's poetic shore.
 | 2  | [Shell_permission](./0x01-shell_permissions)        | Mastering Bash permissions for code control.        |
 | 3  | [Shell_redirections](./0x02-shell_redirections)        | Bash's poetic mastery of data redirections.        |
 | 4  | [Shell_variables](./0x03-shell_variables_expansions)        | Unveiling the magic of Bash variables and expansions.|
-| 4  | [Loops & Conditions](./0x04-loops_conditions_and_parsing/) | Mastering Bash iteration, conditionals and parsing.|
-| 4  | [Processes & Signals](./0x05-processes_and_signals/) | Mastering Bash processes and Signals.|
-| 4  | [Power of regex](./0x06-regular_expressions/) | Finding needle in haystack using `regex`.|
-| 5  | [CMD_Challenge](./command_line_for_the_win/)        | Unraveling the spell that test your Bash command skills beyond its limits.|
+| 5  | [Loops & Conditions](./0x04-loops_conditions_and_parsing/) | Mastering Bash iteration, conditionals and parsing.|
+| 6  | [Processes & Signals](./0x05-processes_and_signals/) | Mastering Bash processes and Signals.|
+| 7  | [Power of regex](./0x06-regular_expressions/) | Finding needle in haystack using `regex`.|
+| 8  | [CMD_Challenge](./command_line_for_the_win/)        | Unraveling the spell that test your Bash command skills beyond its limits.|
 
 ## Prerequisites
 
