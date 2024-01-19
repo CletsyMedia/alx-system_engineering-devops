@@ -1,3 +1,4 @@
+#!/usr/bin/pup
 # 1-install_a_package.pp
 # Puppet manifest to install Flask from pip3 with a specific version.
 
