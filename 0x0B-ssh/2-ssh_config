@@ -5,6 +5,6 @@
 CONFIG_FILE=~/.ssh/config
 
 # Create or modify the SSH client configuration
-echo -e "Host *\n\tIdentityFile ~/.ssh/school\n\tPasswordAuthentication no" > "$CONFIG_FILE"
+echo -e "Host *\n\tPasswordAuthentication no\n\tIdentityFile ~/.ssh/school" > "$CONFIG_FILE"
 
 echo "SSH client configuration updated successfully."
