@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# This script configures Nginx to redirect /redirect_me with a "301 Moved Permanently"
+
+# Create a backup of the default Nginx configuration
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+
+# Use sed to replace a line in the Nginx configuration
+sudo sed -i '/location \/ {/a \\tlocation /redirect_me { return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4; }' /etc/nginx/sites-available/default
+
+# Reload Nginx to apply changes
+sudo service nginx reload
+
+echo -e "\nNginx configured for redirection successfully. ✅\n"
