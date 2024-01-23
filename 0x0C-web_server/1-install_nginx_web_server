@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # This script installs and configures Nginx on an Ubuntu server
 
-# Update and install Nginx
-echo -e "Updating and installing Nginx.\n"
-sudo apt-get update -y -qq && \
-	 sudo apt-get install nginx -y
+# Display message for updating and installing Nginx
+echo -e "Updating and installing Nginx...\n"
+sudo apt-get update -y -qq
+sudo apt-get install nginx -y
 
-# Set up some minor configurations
-echo -e "\nSetting up some minor stuff.\n"
+# Display message for setting up minor configurations
+echo -e "\nSetting up some minor configurations...\n"
 
 # Start Nginx service
 sudo service nginx start
@@ -15,17 +15,20 @@ sudo service nginx start
 # Allow Nginx on firewall
 sudo ufw allow 'Nginx HTTP'
 
-# Give  ownership to website files for easy editing
-chown -R "$USER":"$USER" /var/www/html
-chmod -R 755 /var/www
+# Give the user ownership to website files for easy editing
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
 
-# Backup default index
-cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+# Display message for backing up default index
+echo -e "Backing up the default index file...\n"
+sudo cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
 
-# Create new index
-echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
+# Display message for creating a new index file
+echo -e "Creating a new index file with 'Hello World!'...\n"
+echo -e "Hello World!" | sudo dd status=none of=/var/www/html/index.nginx-debian.html
 
-# Reload Nginx configuration to apply changes
-sudo service nginx reload
+# Restart Nginx
+sudo service nginx restart
 
-echo -e "\nCompleted. ✅\n"
+# Display completion message
+echo -e "\nNginx installation and configuration completed successfully. ✅\n"
