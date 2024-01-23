@@ -51,7 +51,7 @@ EOL'
 
 # Set up a 404 page
 echo "Ceci n'est pas une page" >> /var/www/html/error_404.html
-sudo sed -i '25i\	error_page 404 /error_404.html;' /etc/nginx/sites-available/default
+sudo sed -i '/location \/ {/a\    error_page 404 /error_404.html;' /etc/nginx/sites-available/default
 
 # Restart Nginx
 sudo service nginx restart
