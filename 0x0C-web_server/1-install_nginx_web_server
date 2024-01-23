@@ -1,15 +1,31 @@
 #!/usr/bin/env bash
 # This script installs and configures Nginx on an Ubuntu server
 
-# Install Nginx with the -y option to automatically answer yes to prompts
-apt-get update
-apt-get install -y nginx
+# Update and install Nginx
+echo -e "Updating and installing Nginx.\n"
+apt-get update -y -qq
+apt-get install nginx -y
 
-# Create a custom HTML file with "Hello World!"
-echo "Hello World!" > /var/www/html/index.html
+# Set up some minor configurations
+echo -e "\nSetting up some minor stuff.\n"
 
-# Restart Nginx without using systemctl
-service nginx restart
+# Start Nginx service
+service nginx start
 
-# Display success message
-echo "Nginx installed and configured successfully."
+# Allow Nginx on firewall
+ufw allow 'Nginx HTTP'
+
+# Give the user ownership to website files for easy editing
+chown -R "$USER":"$USER" /var/www/html
+chmod -R 755 /var/www
+
+# Backup default index
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+# Create new index
+echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
+
+# Reload Nginx configuration to apply changes
+service nginx reload
+
+echo -e "\nCompleted. ✅\n"
