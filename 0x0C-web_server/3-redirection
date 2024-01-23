@@ -21,7 +21,7 @@ sudo chmod -R 755 /var/www
 
 # Display message for backing up default index
 echo -e "Backing up the default index file...\n"
-sudo cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
 
 # Display message for creating a new index file
 echo -e "Creating a new index file with 'Hello World!'...\n"
