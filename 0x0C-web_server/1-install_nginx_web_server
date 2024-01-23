@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# This script installs and configures Nginx on an Ubuntu server
+
+# Install Nginx with the -y option to automatically answer yes to prompts
+apt-get update
+apt-get install -y nginx
+
+# Create a custom HTML file with "Hello World!"
+echo "Hello World!" > /var/www/html/index.html
+
+# Restart Nginx without using systemctl
+service nginx restart
+
+# Display success message
+echo "Nginx installed and configured successfully."
