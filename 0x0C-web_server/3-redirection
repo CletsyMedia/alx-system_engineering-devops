@@ -1,13 +1,38 @@
 #!/usr/bin/env bash
-# This script configures Nginx to redirect /redirect_me with a "301 Moved Permanently"
+# This script installs and configures Nginx on an Ubuntu server
 
-# Create a backup of the default Nginx configuration
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+# Display message for updating and installing Nginx
+echo -e "Updating and installing Nginx...\n"
+sudo apt-get update -y -qq
+sudo apt-get install nginx -y
 
-# Use sed to replace a line in the Nginx configuration
-sudo sed -i '/location \/ {/a \\tlocation /redirect_me { return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4; }' /etc/nginx/sites-available/default
+# Display message for setting up minor configurations
+echo -e "\nSetting up some minor configurations...\n"
 
-# Reload Nginx to apply changes
-sudo service nginx reload
+# Start Nginx service
+sudo service nginx start
 
-echo -e "\nNginx configured for redirection successfully. ✅\n"
+# Allow Nginx on firewall
+sudo ufw allow 'Nginx HTTP'
+
+# Give the user ownership to website files for easy editing
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
+
+# Display message for backing up default index
+echo -e "Backing up the default index file...\n"
+sudo cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+# Display message for creating a new index file
+echo -e "Creating a new index file with 'Hello World!'...\n"
+echo -e "Hello World!" | sudo dd status=none of=/var/www/html/index.nginx-debian.html
+
+# Setting up /redirect_me to a youtube video
+sudo sed -i '24i\       rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+
+
+# Restart Nginx
+sudo service nginx restart
+
+# Display completion message
+echo -e "\nNginx installation and configuration completed successfully. ✅\n"
