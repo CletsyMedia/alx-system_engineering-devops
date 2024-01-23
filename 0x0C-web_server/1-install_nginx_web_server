@@ -3,19 +3,19 @@
 
 # Update and install Nginx
 echo -e "Updating and installing Nginx.\n"
-apt-get update -y -qq
-apt-get install nginx -y
+sudo apt-get update -y -qq && \
+	 sudo apt-get install nginx -y
 
 # Set up some minor configurations
 echo -e "\nSetting up some minor stuff.\n"
 
 # Start Nginx service
-service nginx start
+sudo service nginx start
 
 # Allow Nginx on firewall
-ufw allow 'Nginx HTTP'
+sudo ufw allow 'Nginx HTTP'
 
-# Give the user ownership to website files for easy editing
+# Give  ownership to website files for easy editing
 chown -R "$USER":"$USER" /var/www/html
 chmod -R 755 /var/www
 
@@ -26,6 +26,6 @@ cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.b
 echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
 
 # Reload Nginx configuration to apply changes
-service nginx reload
+sudo service nginx reload
 
 echo -e "\nCompleted. ✅\n"
