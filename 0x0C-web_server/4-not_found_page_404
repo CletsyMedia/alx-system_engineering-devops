@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# This script installs and configures Nginx on an Ubuntu server with a custom 404 page
+# This script installs and configures Nginx on an Ubuntu server with redirection
 
 # Display message for updating and installing Nginx
 echo -e "Updating and installing Nginx...\n"
@@ -27,9 +27,9 @@ sudo cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.h
 echo -e "Creating a new index file with 'Hello World!'...\n"
 echo -e "Hello World!" | sudo dd status=none of=/var/www/html/index.nginx-debian.html
 
-# Configure redirection for /redirect_me (as per previous script)
+# Configure redirection for /redirect_me
 echo -e "\nConfiguring redirection for /redirect_me...\n"
-sudo bash -c "cat <<EOL > /etc/nginx/sites-available/default
+sudo bash -c 'cat <<EOL > /etc/nginx/sites-available/default
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
@@ -44,42 +44,17 @@ server {
     }
 
     location / {
-        try_files \$uri \$uri/ =404;
+        try_files $uri $uri/ =404;
     }
 }
-EOL"
+EOL'
 
-# Configure custom 404 page
-echo -e "\nConfiguring custom 404 page...\n"
-sudo bash -c "cat <<EOL > /etc/nginx/sites-available/default
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    root /var/www/html;
-    index index.nginx-debian.html;
-
-    server_name _;
-
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-
-    error_page 404 /404.html;
-    location = /404.html {
-        root /var/www/html;
-        internal;
-        echo 'Ceci n'\''est pas une page';
-    }
-}
-EOL"
+# Set up a 404 page
+echo "Ceci n'est pas une page" >> /var/www/html/error_404.html
+sudo sed -i '25i\	error_page 404 /error_404.html;' /etc/nginx/sites-available/default
 
 # Restart Nginx
 sudo service nginx restart
 
 # Display completion message
-echo -e '\nNginx installation, configuration, and custom 404 page setup completed successfully. ✅\n'
+echo -e "\nNginx installation, configuration, and redirection completed successfully. ✅\n"
