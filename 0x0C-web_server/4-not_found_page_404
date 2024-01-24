@@ -2,64 +2,36 @@
 # This script installs and configures Nginx on an Ubuntu server with redirection and custom 404 page
 
 # Display message for updating and installing Nginx
-echo -e "Updating and installing Nginx...\n"
-sudo apt-get update -y -qq
-sudo apt-get install nginx -y
+echo -e "Updating and installing Nginx.\n"
+sudo apt-get update -y -qq && \
+	 sudo apt-get install nginx -y
 
-# Display message for setting up minor configurations
-echo -e "\nSetting up some minor configurations...\n"
+echo -e "\nSetting up some minor stuff.\n"
 
-# Start Nginx service
+# starting nginx service
 sudo service nginx start
 
-# Allow Nginx on firewall
+# allowing nginx on firewall
 sudo ufw allow 'Nginx HTTP'
 
 # Give the user ownership to website files for easy editing
 sudo chown -R "$USER":"$USER" /var/www/html
 sudo chmod -R 755 /var/www
 
-# Display message for backing up default index
-echo -e "Backing up the default index file...\n"
-sudo cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+# Backup default index
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
 
-# Display message for creating a new index file
-echo -e "Creating a new index file with 'Hello World!'...\n"
-echo -e "Hello World!" | sudo dd status=none of=/var/www/html/index.nginx-debian.html
+# Creating new index
+echo -e "Hello World!" > /var/www/html/index.nginx-debian.html
 
-# Configure redirection for /redirect_me and custom 404 page
-echo -e "\nConfiguring redirection for /redirect_me and custom 404 page...\n"
-sudo bash -c 'cat <<EOL > /etc/nginx/sites-available/default
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+# Setting up /redirect_me to a youtube video
+sudo sed -i '24i\	rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
 
-    root /var/www/html;
-    index index.nginx-debian.html;
+# Set up a 404 page
+echo "Ceci n'est pas une page" >> /var/www/html/error_404.html
+sudo sed -i '25i\	error_page 404 /error_404.html;' /etc/nginx/sites-available/default
 
-    server_name _;
-
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-
-    location = /404.html {
-        root /var/www/html;
-        internal;
-    }
-
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-}
-EOL'
-
-# Create custom 404 page
-echo -e "\nCreating custom 404 page...\n"
-echo -e "Ceci n'est pas une page" | sudo dd status=none of=/var/www/html/404.html
-
-# Restart Nginx
+# Restarting nginx
 sudo service nginx restart
 
-# Display completion message
-echo -e "\nNginx installation, configuration, and redirection completed successfully. ✅\n"
+echo -e "\nCompleted.\n"
