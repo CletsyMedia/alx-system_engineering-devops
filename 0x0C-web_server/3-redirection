@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# This script installs and configures Nginx on an Ubuntu server with redirection and custom 404 page
+# This script installs and configures Nginx on an Ubuntu server with redirection
 
 # Display message for updating and installing Nginx
 echo -e "Updating and installing Nginx...\n"
@@ -27,8 +27,8 @@ sudo cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.h
 echo -e "Creating a new index file with 'Hello World!'...\n"
 echo -e "Hello World!" | sudo dd status=none of=/var/www/html/index.nginx-debian.html
 
-# Configure redirection for /redirect_me and custom 404 page
-echo -e "\nConfiguring redirection for /redirect_me and custom 404 page...\n"
+# Configure redirection for /redirect_me
+echo -e "\nConfiguring redirection for /redirect_me...\n"
 sudo bash -c 'cat <<EOL > /etc/nginx/sites-available/default
 server {
     listen 80 default_server;
@@ -44,14 +44,10 @@ server {
     }
 
     location / {
-        try_files \$uri \$uri/ =404;
+        try_files $uri $uri/ =404;
     }
 }
 EOL'
-
-# Create custom 404 page
-echo -e "\nCreating custom 404 page...\n"
-echo -e "Ceci n'est pas une page" | sudo dd status=none of=/var/www/html/404.html
 
 # Restart Nginx
 sudo service nginx restart
