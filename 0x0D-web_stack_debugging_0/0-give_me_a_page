@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Runs an Apache in a container and returns a page that containing Hello
+# Holberton when querying the root of it.
+
+sudo service apache2 starti
