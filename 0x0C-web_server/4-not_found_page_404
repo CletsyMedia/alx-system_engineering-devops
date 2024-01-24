@@ -27,8 +27,8 @@ sudo mv /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.h
 echo -e "Creating a new index file with 'Hello World!'...\n"
 echo -e "Hello World!" | sudo dd status=none of=/var/www/html/index.html
 
-# Configure redirection
-echo -e "\nConfiguring redirection...\n"
+# Configure redirection and custom 404 page
+echo -e "\nConfiguring redirection and custom 404 page...\n"
 sudo bash -c 'echo "server {
     listen 80;
     listen [::]:80;
@@ -49,9 +49,14 @@ sudo bash -c 'echo "server {
         root /var/www/html;
         internal;
     }
+    
+    # Add the following lines to include ETag header
+    location ~* \.(html)$ {
+        etag on;
+    }
 }" > /etc/nginx/sites-available/default'
 
-# Create custom 404 page
+# Create custom 404 page with correct content
 echo -e "\nCreating custom 404 page...\n"
 echo -e "Ceci n'est pas une page" | sudo dd status=none of=/var/www/html/custom_404.html
 
