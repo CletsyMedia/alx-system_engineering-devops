@@ -1,13 +1,62 @@
 #!/usr/bin/env bash
-# Configures the Nginx server to have a custom 404 page that
-# contains the string Ceci n'est pas une page.
+# This script installs and configures Nginx on an Ubuntu server
 
-sudo apt-get update
-sudo apt-get -y install nginx
+# Display message for updating and installing Nginx
+echo -e "Updating and installing Nginx...\n"
+sudo apt-get update -y -qq
+sudo apt-get install nginx -y
+
+# Display message for setting up minor configurations
+echo -e "\nSetting up some minor configurations...\n"
+
+# Start Nginx service
 sudo service nginx start
-echo "Ceci n'est pas une page" | sudo tee /usr/share/nginx/html/404.html
-err_page="\\\terror_page 404 /404.html;\n\tlocation = /404.html {\n\t\troot /usr/share/nginx/html;\n\t\tinternal;\n\t}"
-sudo sed -i "27i $err_page" /etc/nginx/sites-available/default
-sudo service nginx restart
-sudo service nginx reload
 
+# Allow Nginx on firewall
+sudo ufw allow 'Nginx HTTP'
+
+# Give the user ownership to website files for easy editing
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www/html
+
+# Display message for backing up default index
+echo -e "Backing up the default index file...\n"
+sudo mv /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+# Display message for creating a new index file
+echo -e "Creating a new index file with 'Hello World!'...\n"
+echo -e "Hello World!" | sudo dd status=none of=/var/www/html/index.html
+
+# Configure redirection
+echo -e "\nConfiguring redirection...\n"
+sudo bash -c 'echo "server {
+    listen 80;
+    listen [::]:80;
+
+    server_name _;
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+    location / {
+        root /var/www/html;
+        index index.html;
+    }
+
+    error_page 404 /custom_404.html;
+    location = /custom_404.html {
+        root /var/www/html;
+        internal;
+    }
+}" > /etc/nginx/sites-available/default'
+
+# Create custom 404 page
+echo -e "\nCreating custom 404 page...\n"
+echo -e "Ceci n'est pas une page" | sudo dd status=none of=/var/www/html/custom_404.html
+
+# Restart Nginx
+sudo service nginx restart
+
+# Display completion message
+echo -e "\nNginx installation and configuration completed successfully. ✅\n"
