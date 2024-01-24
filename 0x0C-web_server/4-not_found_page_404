@@ -1,37 +1,25 @@
 #!/usr/bin/env bash
 # This script installs and configures Nginx on an Ubuntu server with redirection and custom 404 page
 
-# Display message for updating and installing Nginx
-echo -e "Updating and installing Nginx.\n"
-sudo apt-get update -y -qq && \
-	 sudo apt-get install nginx -y
+# Updating Packages before performing installations
+sudo apt-get update
+sudo apt-get install -y nginx
 
-echo -e "\nSetting up some minor stuff.\n"
+# Creating an index.html page
+echo "Hello World!" | sudo tee /var/www/html/index.html
 
-# starting nginx service
-sudo service nginx start
+# Performing a "moved permanently redirection" (301)
+new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/besthor permanent;"
+sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
 
-# allowing nginx on firewall
-sudo ufw allow 'Nginx HTTP'
+# Creating a 404 Custom error page
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+new_string="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
 
-# Give the user ownership to website files for easy editing
-sudo chown -R "$USER":"$USER" /var/www/html
-sudo chmod -R 755 /var/www
+sudo sed -i "s/listen 80 default_server;/$new_string/" /etc/nginx/sites-enabled/default
 
-# Backup default index
-cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+# Testing configurations for syntax errors
+sudo nginx -t
 
-# Creating new index
-echo -e "Hello World!" > /var/www/html/index.nginx-debian.html
-
-# Setting up /redirect_me to a youtube video
-sudo sed -i '24i\	rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
-
-# Set up a 404 page
-echo "Ceci n'est pas une page" >> /var/www/html/error_404.html
-sudo sed -i '25i\	error_page 404 /error_404.html;' /etc/nginx/sites-available/default
-
-# Restarting nginx
+# restart nginx after implementing changes
 sudo service nginx restart
-
-echo -e "\nCompleted.\n"
