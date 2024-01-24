@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# This script installs and configures Nginx on an Ubuntu server with redirection
+# This script installs and configures Nginx on an Ubuntu server
 
 # Display message for updating and installing Nginx
 echo -e "Updating and installing Nginx...\n"
@@ -17,25 +17,21 @@ sudo ufw allow 'Nginx HTTP'
 
 # Give the user ownership to website files for easy editing
 sudo chown -R "$USER":"$USER" /var/www/html
-sudo chmod -R 755 /var/www
+sudo chmod -R 755 /var/www/html
 
 # Display message for backing up default index
 echo -e "Backing up the default index file...\n"
-sudo cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+sudo mv /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
 
 # Display message for creating a new index file
 echo -e "Creating a new index file with 'Hello World!'...\n"
-echo -e "Hello World!" | sudo dd status=none of=/var/www/html/index.nginx-debian.html
+echo -e "Hello World!" | sudo dd status=none of=/var/www/html/index.html
 
-# Configure redirection for /redirect_me
-echo -e "\nConfiguring redirection for /redirect_me...\n"
-sudo bash -c 'cat <<EOL > /etc/nginx/sites-available/default
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    root /var/www/html;
-    index index.nginx-debian.html;
+# Configure redirection
+echo -e "\nConfiguring redirection...\n"
+sudo bash -c 'echo "server {
+    listen 80;
+    listen [::]:80;
 
     server_name _;
 
@@ -44,13 +40,13 @@ server {
     }
 
     location / {
-        try_files $uri $uri/ =404;
+        root /var/www/html;
+        index index.html;
     }
-}
-EOL'
+}" > /etc/nginx/sites-available/default'
 
 # Restart Nginx
 sudo service nginx restart
 
 # Display completion message
-echo -e "\nNginx installation, configuration, and redirection completed successfully. ✅\n"
+echo -e "\nNginx installation and configuration completed successfully. ✅\n"
