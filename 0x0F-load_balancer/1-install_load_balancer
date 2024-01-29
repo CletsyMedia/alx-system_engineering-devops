@@ -43,8 +43,8 @@ frontend http_front
 
 backend http_back
     balance roundrobin
-    server web01 [STUDENT_ID]-web-01:80 check
-    server web02 [STUDENT_ID]-web-02:80 check
+    server 422289-web-01 3.85.41.2:80 check
+    server 422289-web-02 34.229.55.147:80 check
 EOF'
     echo "HAProxy configured."
 }
