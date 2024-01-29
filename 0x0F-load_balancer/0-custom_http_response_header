@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# This script configures Nginx on a new Ubuntu machine to add a custom HTTP header
+# It also duplicates web-01 to web-02 and configures Nginx on both servers
+
+# Update and install Nginx
+sudo apt-get update -y -qq
+sudo apt-get install nginx -y
+
+# Set up Nginx to add custom HTTP header
+sudo bash -c 'echo "server {
+    listen 80;
+    listen [::]:80;
+
+    server_name _;
+
+    location / {
+        root /var/www/html;
+        index index.html;
+        add_header X-Served-By $(hostname);
+    }
+
+    error_page 404 /custom_404.html;
+    location = /custom_404.html {
+        root /var/www/html;
+        internal;
+    }
+}" > /etc/nginx/sites-available/default'
+
+# Restart Nginx
+sudo service nginx restart
+
+# Display completion message for Nginx configuration
+echo "Nginx configuration completed successfully. Custom header added."
+
+# Function to install packages if not already installed
+function install() {
+    command -v "$1" &> /dev/null
+    if [ $? -ne 0 ]; then
+        echo -e "Installing: $1\n"
+        sudo apt-get update -y -qq && \
+        sudo apt-get install -y "$1" -qq
+        echo -e "\n"
+    else
+        echo -e "${1} is already installed.\n"
+    fi
+}
+
+# Install necessary packages
+install ufw
+
+# Allow Nginx on firewall
+sudo ufw allow 'Nginx HTTP'
+
+# Duplicate web-01 to web-02
+echo -e "Duplicating web-01 to web-02...\n"
+scp -r /var/www/html ubuntu@34.229.55.147:/var/www/
+scp /etc/nginx/sites-available/default ubuntu@34.229.55.147:/etc/nginx/sites-available/
+scp /etc/nginx/sites-enabled/default ubuntu@34.229.55.147:/etc/nginx/sites-enabled/
+
+# Restart Nginx on web-02
+ssh ubuntu@34.229.55.147 'sudo service nginx restart'
+
+# Display completion message for duplicating web-01 to web-02
+echo -e "Web server duplication completed successfully.\n"
+
