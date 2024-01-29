@@ -3,8 +3,7 @@
 
 # Function to install HAProxy
 install_haproxy() {
-    command -v haproxy &>/dev/null
-    if [ $? -ne 0 ]; then
+    if ! command -v haproxy &>/dev/null; then
         echo "Installing HAProxy..."
         sudo apt-get update -y -qq && sudo apt-get install -y haproxy -qq
         echo "HAProxy installed."
