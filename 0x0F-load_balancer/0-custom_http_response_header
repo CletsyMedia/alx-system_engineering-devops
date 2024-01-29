@@ -1,65 +1,59 @@
 #!/usr/bin/env bash
-# This script configures Nginx on a new Ubuntu machine to add a custom HTTP header
-# It also duplicates web-01 to web-02 and configures Nginx on both servers
+# This script configures web-02 to be identical to web-01 and adds a custom Nginx response header
 
-# Update and install Nginx
-sudo apt-get update -y -qq
-sudo apt-get install nginx -y
-
-# Set up Nginx to add custom HTTP header
-sudo bash -c 'echo "server {
-    listen 80;
-    listen [::]:80;
-
-    server_name _;
-
-    location / {
-        root /var/www/html;
-        index index.html;
-        add_header X-Served-By $(hostname);
-    }
-
-    error_page 404 /custom_404.html;
-    location = /custom_404.html {
-        root /var/www/html;
-        internal;
-    }
-}" > /etc/nginx/sites-available/default'
-
-# Restart Nginx
-sudo service nginx restart
-
-# Display completion message for Nginx configuration
-echo "Nginx configuration completed successfully. Custom header added."
-
-# Function to install packages if not already installed
-function install() {
-    command -v "$1" &> /dev/null
+# Install Nginx if not already installed
+install_nginx() {
+    command -v nginx &>/dev/null
     if [ $? -ne 0 ]; then
-        echo -e "Installing: $1\n"
-        sudo apt-get update -y -qq && \
-        sudo apt-get install -y "$1" -qq
-        echo -e "\n"
+        echo "Installing Nginx..."
+        sudo apt-get update -y -qq && sudo apt-get install -y nginx -qq
+        echo "Nginx installed."
     else
-        echo -e "${1} is already installed.\n"
+        echo "Nginx is already installed."
     fi
 }
 
-# Install necessary packages
-install ufw
+# Function to configure Nginx with custom header
+configure_nginx() {
+    echo "Configuring Nginx with custom header..."
+    server_config="server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+        server_name _;
+        add_header X-Served-By \$hostname;
+        location / {
+            try_files \$uri \$uri/ =404;
+        }
+        error_page 404 /error_404.html;
+        location = /error_404.html {
+            internal;
+        }
+    }"
 
-# Allow Nginx on firewall
-sudo ufw allow 'Nginx HTTP'
+    echo "$server_config" | sudo dd status=none of=/etc/nginx/sites-enabled/default
+    echo "Nginx configured with custom header."
+}
 
-# Duplicate web-01 to web-02
-echo -e "Duplicating web-01 to web-02...\n"
-scp -r /var/www/html ubuntu@34.229.55.147:/var/www/
-scp /etc/nginx/sites-available/default ubuntu@34.229.55.147:/etc/nginx/sites-available/
-scp /etc/nginx/sites-enabled/default ubuntu@34.229.55.147:/etc/nginx/sites-enabled/
+# Start or restart Nginx
+start_or_restart_nginx() {
+    if pgrep -x "nginx" >/dev/null; then
+        echo "Restarting Nginx..."
+        sudo service nginx restart
+    else
+        echo "Starting Nginx..."
+        sudo service nginx start
+    fi
+    echo "Nginx started/restarted."
+}
 
-# Restart Nginx on web-02
-ssh ubuntu@34.229.55.147 'sudo service nginx restart'
+# Main function
+main() {
+    install_nginx
+    configure_nginx
+    start_or_restart_nginx
+    echo "Web-02 configured and Nginx running."
+}
 
-# Display completion message for duplicating web-01 to web-02
-echo -e "Web server duplication completed successfully.\n"
-
+main
