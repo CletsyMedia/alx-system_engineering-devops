@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Script to install and configure HAProxy on lb-01 server
 
-
 echo -e "Updating and checking necessary files...\n"
 
 # Function to install a given package
@@ -18,6 +17,7 @@ function install() {
 		echo -e "	${1} is already installed.\n"
 	fi
 }
+
 # Install HAProxy
 install haproxy
 
@@ -52,10 +52,13 @@ echo "$server_config" | sudo dd status=none of=/etc/haproxy/haproxy.cfg
 # Enable HAProxy to be started by the init script
 echo "ENABLED=1" | sudo dd status=none of=/etc/default/haproxy
 
-echo "configured - Roundrobin On web-01 & web-02"
+echo "Configured - Roundrobin On web-01 & web-02"
 
+# Restart or start HAProxy service based on its current status
 if [ "$(pgrep -c haproxy)" -le 0 ]; then
-	sudo service haproxy start
+    sudo service haproxy start
 else
-	sudo service haproxy restart
+    sudo service haproxy restart
 fi
+
+echo "HAProxy installation and configuration completed successfully."
