@@ -1,67 +1,59 @@
 #!/usr/bin/env bash
-# Bash script to install and configure HAProxy on lb-01 server
+# install load balancer
 
-# Function to install HAProxy
-install_haproxy() {
-    if ! command -v haproxy &>/dev/null; then
-        echo "Installing HAProxy..."
-        sudo apt-get update -y -qq && sudo apt-get install -y haproxy -qq
-        echo "HAProxy installed."
-    else
-        echo "HAProxy is already installed."
-    fi
+
+echo -e "Updating and doing some minor checks...\n"
+
+function install() {
+	command -v "$1" &> /dev/null
+
+	#shellcheck disable=SC2181
+	if [ $? -ne 0 ]; then
+		echo -e "	Installing: $1\n"
+		sudo apt-get update -y -qq && \
+			sudo apt-get install -y "$1" -qq
+		echo -e "\n"
+	else
+		echo -e "	${1} is already installed.\n"
+	fi
 }
 
-# Function to configure HAProxy
-configure_haproxy() {
-    echo "Configuring HAProxy..."
-    sudo bash -c 'cat <<EOF > /etc/haproxy/haproxy.cfg
-global
-    log /dev/log    local0
-    log /dev/log    local1 notice
-    chroot /var/lib/haproxy
-    stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
-    stats timeout 30s
-    user haproxy
-    group haproxy
-    daemon
+install haproxy #install haproxy
 
+echo -e "\nSetting up some minor stuff.\n"
+
+# backup default server config file
+sudo cp /etc/haproxy/haproxy.cfg haproxy_default.backup
+
+server_config=\
+"
 defaults
-    log     global
-    mode    http
-    option  httplog
-    option  dontlognull
-    timeout connect 5000
-    timeout client  50000
-    timeout server  50000
+  mode http
+  timeout client 15s
+  timeout connect 10s
+  timeout server 15s
+  timeout http-request 10s
 
-frontend http_front
+frontend cletsymedia-tech-frontend
     bind *:80
-    stats uri /haproxy?stats
-    default_backend http_back
+    default_backend cletsymedia-tech-backend
 
-backend http_back
+backend cletsymedia-tech-backend
     balance roundrobin
     server 422289-web-01 3.85.41.2:80 check
     server 422289-web-02 34.229.55.147:80 check
-EOF'
-    echo "HAProxy configured."
-}
+"
 
-# Function to restart HAProxy
-restart_haproxy() {
-    echo "Restarting HAProxy..."
-    sudo systemctl restart haproxy
-    echo "HAProxy restarted."
-}
+# shellcheck disable=SC2154
+echo "$server_config" | sudo dd status=none of=/etc/haproxy/haproxy.cfg
 
-# Main function
-main() {
-    install_haproxy
-    configure_haproxy
-    restart_haproxy
-    echo "HAProxy installation and configuration completed successfully."
-}
+# enable haproxy to be started by init script
+echo "ENABLED=1" | sudo dd status=none of=/etc/default/haproxy
 
-main
+echo "configured - Roundrobin On web-01 & web-02"
 
+if [ "$(pgrep -c haproxy)" -le 0 ]; then
+	sudo service haproxy start
+else
+	sudo service haproxy restart
+fi
