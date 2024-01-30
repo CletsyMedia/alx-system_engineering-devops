@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
-# install load balancer
+# Script to install and configure HAProxy on lb-01 server
 
 
-echo -e "Updating and doing some minor checks...\n"
+echo -e "Updating and checking necessary files...\n"
 
+# Function to install a given package
 function install() {
 	command -v "$1" &> /dev/null
 
-	#shellcheck disable=SC2181
+	# Check if the package is already installed & shellcheck disable=SC2181
 	if [ $? -ne 0 ]; then
 		echo -e "	Installing: $1\n"
 		sudo apt-get update -y -qq && \
@@ -17,14 +18,15 @@ function install() {
 		echo -e "	${1} is already installed.\n"
 	fi
 }
+# Install HAProxy
+install haproxy
 
-install haproxy #install haproxy
+echo -e "\nSetting other dependencies.\n"
 
-echo -e "\nSetting up some minor stuff.\n"
-
-# backup default server config file
+# Backup the default HAProxy server config file
 sudo cp /etc/haproxy/haproxy.cfg haproxy_default.backup
 
+# Define the HAProxy server configuration
 server_config=\
 "
 defaults
@@ -44,10 +46,10 @@ backend cletsymedia-tech-backend
     server 422289-web-02 34.229.55.147:80 check
 "
 
-# shellcheck disable=SC2154
+# Apply the HAProxy server configuration
 echo "$server_config" | sudo dd status=none of=/etc/haproxy/haproxy.cfg
 
-# enable haproxy to be started by init script
+# Enable HAProxy to be started by the init script
 echo "ENABLED=1" | sudo dd status=none of=/etc/default/haproxy
 
 echo "configured - Roundrobin On web-01 & web-02"
