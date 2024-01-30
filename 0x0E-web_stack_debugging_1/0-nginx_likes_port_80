@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Function to check Nginx configuration and service status
+check_nginx() {
+    # Check if Nginx is installed
+    if ! command -v nginx &>/dev/null; then
+        echo "Nginx is not installed. Please install Nginx first."
+        exit 1
+    fi
+
+    # Check Nginx configuration for port 80 listening
+    if ! grep -q "listen 80;" /etc/nginx/sites-available/default; then
+        echo "Configuring Nginx to listen on port 80..."
+        sudo sed -i '/listen 80;/s/# *//' /etc/nginx/sites-available/default
+        echo "Nginx configured to listen on port 80."
+    fi
+
+    # Restart Nginx service
+    echo "Restarting Nginx service..."
+    sudo systemctl restart nginx
+
+    # Check Nginx service status
+    if sudo systemctl is-active --quiet nginx; then
+        echo "Nginx is running and listening on port 80."
+    else
+        echo "Failed to start Nginx service or Nginx is not listening on port 80."
+        exit 1
+    fi
+}
+
+# Main function
+main() {
+    check_nginx
+}
+
+main
