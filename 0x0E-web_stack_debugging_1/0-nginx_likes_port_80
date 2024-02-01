@@ -51,3 +51,4 @@ sudo service nginx restart
 
 # Display completion message
 echo -e "\nNginx installation and configuration completed successfully. ✅\n"
+
