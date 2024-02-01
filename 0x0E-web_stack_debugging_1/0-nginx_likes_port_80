@@ -20,7 +20,7 @@ sudo chown -R "$USER":"$USER" /var/www/html
 sudo chmod -R 755 /var/www/html
 
 # Download default Nginx welcome page
-sudo wget -O /var/www/html/index.html http://nginx.org/
+sudo cp /var/www/html/index.html /var/www/html/
 
 # Configure Nginx to serve default welcome page
 echo -e "\nConfiguring Nginx to serve default welcome page...\n"
