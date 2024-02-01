@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# Removing default config for nginx
-rm /etc/nginx/sites-enable/default
 # Create a symbolic link for the default Nginx configuration
-ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Restart Nginx service
-service nginx restart
+sudo service nginx restart
