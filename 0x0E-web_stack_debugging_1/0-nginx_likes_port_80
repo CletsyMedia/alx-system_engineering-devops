@@ -1,7 +1,53 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# This script installs and configures Nginx on an Ubuntu server
 
-# Create a symbolic link for the default Nginx configuration
-ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+# Display message for updating and installing Nginx
+echo -e "Updating and installing Nginx...\n"
+sudo apt-get update -y -qq
+sudo apt-get install nginx -y
 
-# Restart Nginx service
-service nginx restart
+# Display message for setting up minor configurations
+echo -e "\nSetting up some minor configurations...\n"
+
+# Start Nginx service
+sudo service nginx start
+
+# Allow Nginx on firewall
+sudo ufw allow 'Nginx HTTP'
+
+# Give the user ownership to website files for easy editing
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www/html
+
+# Download default Nginx welcome page
+sudo wget -O /var/www/html/index.html http://nginx.org/
+
+# Configure Nginx to serve default welcome page
+echo -e "\nConfiguring Nginx to serve default welcome page...\n"
+sudo bash -c 'echo "server {
+    listen 80;
+    listen [::]:80;
+
+    server_name _;
+
+    location / {
+        root /var/www/html;
+        index index.html;
+    }
+
+    error_page 404 /custom_404.html;
+    location = /custom_404.html {
+        root /var/www/html;
+        internal;
+    }
+}" > /etc/nginx/sites-available/default'
+
+# Create custom 404 page
+echo -e "\nCreating custom 404 page...\n"
+echo -e "Ceci n'est pas une page" | sudo dd status=none of=/var/www/html/custom_404.html
+
+# Restart Nginx
+sudo service nginx restart
+
+# Display completion message
+echo -e "\nNginx installation and configuration completed successfully. ✅\n"
