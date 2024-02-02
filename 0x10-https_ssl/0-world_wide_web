@@ -1,47 +1,30 @@
 #!/usr/bin/env bash
+# This script queries DNS records for specified subdomains of a domain.
 
-# This script displays information about subdomains of a given domain
-
-# Check if the required arguments are provided
-if [ $# -eq 0 ]; then
-    echo "Usage: $0 <domain> [subdomain]"
-    exit 1
-fi
-
-# Function to display information for a specific subdomain
-get_subdomain_info() {
+# Function to query DNS records for a subdomain
+query_dns() {
     local domain="$1"
     local subdomain="$2"
+    local record_type="A"  # Assuming A records for IP addresses, adjust if needed
     local result
-    result="$(dig +noall +answer "$subdomain.$domain")"
-    local record_type
-    record_type="$(echo "$result" | awk '{print $4}')"
-    local destination
-    destination="$(echo "$result" | awk '{print $5}')"
-    echo "The subdomain $subdomain is a $record_type record and points to $destination"
+    result="$(dig +short "$subdomain.$domain" | tail -n1)"
+    echo "The subdomain $subdomain is a $record_type record and points to $result"
 }
 
-# Function to display information for default subdomains
-get_default_subdomains_info() {
-    local domain="$1"
-    local subdomains=("www" "lb-01" "web-01" "web-02")
-    for subdomain in "${subdomains[@]}"; do
-        get_subdomain_info "$domain" "$subdomain"
-    done
-}
-
-# Check if only domain is provided
-if [ $# -eq 1 ]; then
-    get_default_subdomains_info "$1"
-    exit 0
+# Main script
+if [ $# -eq 0 ]; then
+    # If no arguments provided, query default subdomains
+    query_dns "$1" "www"
+    query_dns "$1" "lb-01"
+    query_dns "$1" "web-01"
+    query_dns "$1" "web-02"
+elif [ $# -eq 1 ]; then
+    # If only domain argument provided, query default subdomains
+    query_dns "$1" "www"
+    query_dns "$1" "lb-01"
+    query_dns "$1" "web-01"
+    query_dns "$1" "web-02"
+else
+    # If both domain and subdomain arguments provided, query specified subdomain
+    query_dns "$1" "$2"
 fi
-
-# Check if both domain and subdomain are provided
-if [ $# -eq 2 ]; then
-    get_subdomain_info "$1" "$2"
-    exit 0
-fi
-
-# If invalid number of arguments provided
-echo "Usage: $0 <domain> [subdomain]"
-exit 1
