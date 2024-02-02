@@ -1,16 +1,22 @@
 #!/usr/bin/env bash
 # This script queries DNS records for specified subdomains of a domain.
 
-print_domain_subdomain () {
-    dig "$1" | grep -A1 'ANSWER SECTION:' | sed -r "s/$1./$2/g" | awk -F" " ' NR==2 { print "The subdomain " $1 " is a " $4 " record and points to " $5 }'
+# Function to print DNS information for a given subdomain
+print_domain_subdomain() {
+    local query_domain="$1"  # The domain to query
+    local subdomain="$2"     # The specific subdomain to query
+    # Query the DNS records for the specified subdomain
+    dig "$query_domain" | grep -A1 'ANSWER SECTION:' | sed -r "s/$query_domain/$subdomain/g" | awk -F" " ' NR==2 { print "The subdomain " $1 " is a " $4 " record and points to " $5 }'
 }
 
-if [ "$#" -eq 2 ]
-then
-    print_domain_subdomain "$2.$1" "$2"
+# Check the number of arguments provided
+if [ "$#" -eq 2 ]; then
+    # If both domain and subdomain are provided, query the specified subdomain
+    print_domain_subdomain "$1" "$2"
 else
-    print_domain_subdomain "www.$1" "www"
-    print_domain_subdomain "lb-01.$1" "lb-01"
-    print_domain_subdomain "web-01.$1" "web-01"
-    print_domain_subdomain "web-02.$1" "web-02"
+    # If only domain is provided, query default subdomains
+    print_domain_subdomain "$1" "www"
+    print_domain_subdomain "$1" "lb-01"
+    print_domain_subdomain "$1" "web-01"
+    print_domain_subdomain "$1" "web-02"
 fi
