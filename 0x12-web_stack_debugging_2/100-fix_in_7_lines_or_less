@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Configure Nginx to run as nginx user and listen on port 8080
-
 chmod 644 /etc/nginx/nginx.conf
 sed -Ei 's/\s*#?\s*user .*/user nginx;/' /etc/nginx/nginx.conf
 sed -Ei 's/(listen (\[::\]:)?80) /\180 /' /etc/nginx/sites-enabled/default
