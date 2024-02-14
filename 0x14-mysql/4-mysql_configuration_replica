@@ -1,14 +1,10 @@
 [mysqld]
-binlog_do_db    = tyrell_corp
-relay-log       = /var/log/mysql/mysql-relay-bin.log
-log_bin         = /var/log/mysql/mysql-bin.log
-server-id       = 2
 pid-file        = /var/run/mysqld/mysqld.pid
 socket          = /var/run/mysqld/mysqld.sock
 datadir         = /var/lib/mysql
 log-error       = /var/log/mysql/error.log
-# By default we only accept connections from localhost
+server-id       = 2
+relay-log       = /var/log/mysql/myssql-relay-bin.log
+log_bin         = /var/log/mysql/mysql-bin.log
+binlog_do_db    = tyrell_corp
 bind-address    = 127.0.0.1
-# Disabling symbolic-links is recommended to prevent assorted security risks
-symbolic-links=0
-
