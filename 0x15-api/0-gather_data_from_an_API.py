@@ -1,58 +1,25 @@
 #!/usr/bin/python3
-"""
-This script retrieves information about an employee's TODO list progress
-from a given REST API.
-"""
-
+""" Script that uses JSONPlaceholder API to get information about employee """
 import requests
 import sys
 
 
-def gather_employee_todo_progress(employee_id):
-    """
-    Retrieves information about an employee's TODO list progress
-    Args:
-        employee_id (int): The ID of the employee
-    """
-
-    # Base URL of the REST API
-    base_url = "https://jsonplaceholder.typicode.com/"
-
-    # Fetch user info
-    user_response = requests.get(base_url + "users/{}".format(employee_id))
-    user_data = user_response.json()
-    employee_name = user_data.get("name")
-
-    # Fetch TODO list
-    todo_res = requests.get(base_url + "todos", params={"userId": employee_id})
-    todo_data = todo_res.json()
-
-    # Filter completed tasks
-    completed_tasks = [task for task in todo_data if task.get("completed")]
-
-    # Display progress
-    total_tasks = len(todo_data)
-    completed_count = len(completed_tasks)
-
-    print(
-        "Employee {} is done with tasks({}/{}):".format(
-            employee_name, completed_count, total_tasks
-        )
-    )
-
-    for task in completed_tasks:
-        print("\t{}".format(task.get("title")))
-
-
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: {} <employee_id>".format(sys.argv[0]))
-        exit(1)
+    url = 'https://jsonplaceholder.typicode.com/'
 
-    try:
-        employee_id = int(sys.argv[1])
-    except ValueError:
-        print("Employee ID must be an integer")
-        exit(1)
+    user = '{}users/{}'.format(url, sys.argv[1])
+    res = requests.get(user)
+    json_o = res.json()
+    print("Employee {} is done with tasks".format(json_o.get('name')), end="")
 
-    gather_employee_todo_progress(employee_id)
+    todos = '{}todos?userId={}'.format(url, sys.argv[1])
+    res = requests.get(todos)
+    tasks = res.json()
+    l_task = []
+    for task in tasks:
+        if task.get('completed') is True:
+            l_task.append(task)
+
+    print("({}/{}):".format(len(l_task), len(tasks)))
+    for task in l_task:
+        print("\t {}".format(task.get("title")))
