@@ -24,8 +24,8 @@ def gather_employee_todo_progress(employee_id):
     employee_name = user_data.get("name")
 
     # Fetch TODO list
-    todo_response = requests.get(base_url + "todos", params={"userId": employee_id})
-    todo_data = todo_response.json()
+    todo_res = requests.get(base_url + "todos", params={"userId": employee_id})
+    todo_data = todo_res.json()
 
     # Filter completed tasks
     completed_tasks = [task for task in todo_data if task.get("completed")]
