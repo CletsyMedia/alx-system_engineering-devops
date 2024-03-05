@@ -1,9 +1,3 @@
-#!/usr/bin/python3
-"""
-A function that queries the Reddit API and prints the titles of
-the first 10 hot posts listed for a given subreddit.
-"""
-
 import requests
 
 
@@ -24,17 +18,11 @@ def top_ten(subreddit):
         children = data.get('children', [])
         if children:
             for i, child in enumerate(children, 1):
-                print(f"{i}. {child['data']['title']}")
+                if not child['data']['stickied']:  # Skip stickied posts
+                    print(f"{i}. {child['data']['title']}")
+                    if i == 10:
+                        break
         else:
             print("No hot posts found for this subreddit.")
     else:
         print("None")
-
-
-if __name__ == "__main__":
-    import sys
-
-    if len(sys.argv) < 2:
-        print("Please pass an argument for the subreddit to search.")
-    else:
-        top_ten(sys.argv[1])
