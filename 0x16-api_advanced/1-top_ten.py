@@ -16,13 +16,14 @@ def top_ten(subreddit):
     """
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     headers = {'User-Agent': 'Custom User Agent'}
+    params = {'limit': 10}
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, params=params)
     if response.status_code == 200:
         data = response.json().get('data', {})
         children = data.get('children', [])
         if children:
-            for i, child in enumerate(children[:10], 1):
+            for i, child in enumerate(children, 1):
                 print(f"{i}. {child['data']['title']}")
         else:
             print("No hot posts found for this subreddit.")
