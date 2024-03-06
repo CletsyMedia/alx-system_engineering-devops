@@ -1,8 +1,9 @@
 # Puppet manifest to fix the issue identified with strace
 
-# Replace this with the actual fix for the issue
-exec { 'fix_apache_issue':
-  command => '/bin/echo "Fixing Apache issue"',
+# Replace bad "phpp" extension to "php" in "wp-settings.php".
+exec{ 'fix_wordpress':
+  command => 'sed -i s/phpp/php/g /var/www/html/wp-settings.php',
+  path 	  => '/usr/local/bin/:/bin/'
 }
 
 # Notify a service restart if necessary
