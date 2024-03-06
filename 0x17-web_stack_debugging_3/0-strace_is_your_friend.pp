@@ -1,6 +1,6 @@
 # Puppet manifest to fix Apache 500 error
 
-# Start by installing necessary packages and dependencies
+# Ensure Apache package is installed
 package { 'apache2':
   ensure => installed,
 }
@@ -13,7 +13,7 @@ service { 'apache2':
 # Define a file resource to fix the issue in Apache configuration
 file { '/etc/apache2/apache2.conf':
   ensure  => file,
-  content => template('apache2/apache2.conf.erb'), # Use a template to manage Apache configuration
+  content => template('apache2/apache2.conf.erb'),
   require => Package['apache2'],
   notify  => Service['apache2'],
 }
@@ -21,7 +21,7 @@ file { '/etc/apache2/apache2.conf':
 # Define the Apache virtual host configuration
 file { '/etc/apache2/sites-available/000-default.conf':
   ensure  => file,
-  content => template('apache2/000-default.conf.erb'), # Use a template to manage virtual host configuration
+  content => template('apache2/000-default.conf.erb'),
   require => Package['apache2'],
   notify  => Service['apache2'],
 }
