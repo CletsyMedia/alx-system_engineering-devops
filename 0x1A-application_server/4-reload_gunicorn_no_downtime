@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Find the process IDs of the Gunicorn processes
+pids=$(pgrep gunicorn)
+
+# Check if there are Gunicorn processes running
+if [ -z "$pids" ]; then
+  echo "No Gunicorn processes found."
+  exit 1
+fi
+
+# Loop through each process ID
+for pid in $pids; do
+  echo "Gracefully reloading Gunicorn process with PID $pid..."
+  kill -HUP "$pid"
+done
+
+echo "Gunicorn reload completed."
